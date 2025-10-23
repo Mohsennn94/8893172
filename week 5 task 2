@@ -1,0 +1,66 @@
+#include<stdio.h> 
+#include <stdbool.h> 
+#define SIZE 24
+#define nRows 8
+#define nCols 3
+// PROTOTYPES
+void print_array(int array[], int length)
+void print_matrix(int mat[][nCols], int rows)
+void set_array(int arr[], int length)
+void rem_align(int arr[],int *length, int pos)
+
+int main()
+{
+int arr[SIZE];
+int current_length = 8
+int arr2d[nRows][nCols];
+set_array(arr, current_length);
+printf("array before removal is: %d, current_length")
+printf("//initialising arr with set_array() and printing:\n");
+print_array(arr,current_length);
+int pos_to_remove = 3;
+printf( "removing element at index %d", pos_to_remove);
+rem_align(arr,&current_length, pos_to_remove);
+printf("new length of the array after removal is", current_length);
+print_array(arr, current_length);
+print_matrix(arr2d,nRows);
+//Call to different functions
+return 0;
+}
+
+void print_array(int array[], int length){
+   for(int i=0;i<length; i++)
+      printf("array[%d]= %d\n", i, array[i]);
+}
+
+void print_matrix(int mat[][nCols], int rows){
+   for(int i=0;i<rows; i++){
+    for(int j=0;j<nCols; j++)
+         printf("mat[%d][%d]= %d\n", i,j, mat[i][j]);
+    puts("");     
+   }     
+}
+
+//FUNCTION DEFINITIONS
+void set_array(int arr[], int length){
+   int i;
+   for (i=0, i<length, i++){
+      arr[i] = i;
+   }
+}
+void print_array(int array[], int length){
+   for (int i = 0; i<length; i++){
+      printf("arr[%d]=%d\n", i, array[i])
+   }
+}
+
+void rem_align(int arr[], int*length, int pos){
+   if(pos < 0 || pos >= *length)
+{
+   printf("Error: position %d is not a valid array index for length %d.\n");
+   return;
+
+} 
+for(int i = pos; i< *length - 1; i++)
+{arr[i] = arr[i+1]}
+}
