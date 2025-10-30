@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_STUDENTS 10
+#define MAX_SUBJECTS 3
+
+ typedef struct {
+    char firstName[30];
+    char lastName[30];
+    int studentID;
+    float marks[MAX_SUBJECTS];
+    float aggregateMarks;
+    char grade;
+} student;
+
+/*Dat prototype*/
+void addStudent( Student students[], int *count);
+void displayStudents( Student students[], int count);
+char calculateGrade(float aggregate);
+
+int main() {
+    student students[MAX_STUDENTS];
+    int count = 0;
+    int choice;
+
+    do {
+        printf("\n===== STUDENT RECORD MENU =====\n");
+        printf("1. Add new student record\n");
+        printf("2. Display all student records\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addStudent(students, &count);
+                break;
+            case 2:
+                displayStudents(students, count);
+                break;
+            case 3:
+                printf("Exiting program...\n");
+                break;
+            default:
+                printf("Invalid choice! Please enter 1–3.\n");
+        }
+    } while (choice != 3);
+
+    return 0;
+}
+
+void addStudent(Student students[], int *count){
+   if (*count >= MAX_STUDENTS) {
+        printf("Maximum number of students reached!\n");
+        return;
+    }
+   
+    Student s;
+    printf("\n--- Enter Student Details ---\n");
+    printf("First Name: ");
+    scanf("%s", s.firstName);
+    printf("Last Name: ");
+    scanf("%s", s.lastName);
+
+     do {
+        printf("Student ID (integer): ");
+        if (scanf("%d", &s.studentID) != 1) {
+            printf("Invalid input! Please enter an integer.\n");
+        } else {
+            break;
+        }
+    } while(1);
+     s.aggregateMarks = 0;
+    for (int i = 0; i < MAX_SUBJECTS; i++) {
+        float mark;
+        do {
+            printf("Enter marks for Subject %d (0–100): ", i + 1);
+            if (scanf("%f", &mark) != 1 || mark < 0 || mark > 100) {
+                printf("Invalid marks! Please enter a number between 0 and 100.\n");
+            } else {
+                s.marks[i] = mark;
+                s.aggregateMarks += mark;
+                break;
+            }
+    }while(1)
+}
+
+
+
+
