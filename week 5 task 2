@@ -1,66 +1,95 @@
-#include<stdio.h> 
-#include <stdbool.h> 
-#define SIZE 24
-#define nRows 8
-#define nCols 3
-// PROTOTYPES
-void print_array(int array[], int length)
-void print_matrix(int mat[][nCols], int rows)
-void set_array(int arr[], int length)
-void rem_align(int arr[],int *length, int pos)
+#include <stdio.h>
+#include <stdlib.h> // Required for malloc in flip_array
+#include <stdbool.h> // Required for boolean type
 
-int main()
-{
-int arr[SIZE];
-int current_length = 8
-int arr2d[nRows][nCols];
-set_array(arr, current_length);
-printf("array before removal is: %d, current_length")
-printf("//initialising arr with set_array() and printing:\n");
-print_array(arr,current_length);
-int pos_to_remove = 3;
-printf( "removing element at index %d", pos_to_remove);
-rem_align(arr,&current_length, pos_to_remove);
-printf("new length of the array after removal is", current_length);
-print_array(arr, current_length);
-print_matrix(arr2d,nRows);
-//Call to different functions
-return 0;
+// --- Symbolic Constants for Array Sizing (for testing and 2D array parameter) ---
+// Note: In C, the number of columns must be a constant for 2D array function parameters.
+#define MAX_SIZE 10
+#define MAX_ROWS 5
+#define MAX_COLS 5
+
+// --- Utility function to print a 1D array ---
+void print_array(int arr[], int length, const char *name) {
+    printf("Array %s (Length %d): [", name, length);
+    for (int i = 0; i < length; i++) {
+        printf("%d%s", arr[i], (i == length - 1) ? "" : ", ");
+    }
+    printf("]\n");
 }
 
-void print_array(int array[], int length){
-   for(int i=0;i<length; i++)
-      printf("array[%d]= %d\n", i, array[i]);
+// ==============================================================================
+// 1. void set_array_int(int arr[], int length, ....):
+// Sets the value of each array element to its index in the array.
+// ==============================================================================
+void set_array_int(int arr[], int length) {
+    printf("\n--- 1. set_array_int ---\n");
+    for (int i = 0; i < length; i++) {
+        arr[i] = i;
+    }
+    print_array(arr, length, "arr (set)");
 }
 
-void print_matrix(int mat[][nCols], int rows){
-   for(int i=0;i<rows; i++){
-    for(int j=0;j<nCols; j++)
-         printf("mat[%d][%d]= %d\n", i,j, mat[i][j]);
-    puts("");     
-   }     
+// ==============================================================================
+// 2. void rem_align_int(int arr[], int length, int pos, ....):
+// Removes the array element at index pos by moving its following array elements 
+// one index up in the array. Prints an error if pos is not valid.
+// ==============================================================================
+void rem_align_int(int arr[], int length, int pos) {
+    printf("\n--- 2. rem_align_int (pos=%d) ---\n", pos);
+    // Check if the position is valid
+    if (pos < 0 || pos >= length) {
+        printf("Error: Position %d is not a valid array index (0 to %d).\n", pos, length - 1);
+        return;
+    }
+
+    // Shift elements to the left, starting from 'pos'
+    for (int i = pos; i < length - 1; i++) {
+        arr[i] = arr[i + 1];
+    }
+
+    // Optionally set the last element (which is now a duplicate of the second-to-last) to 0
+    arr[length - 1] = 0;
+
+    printf("Element at pos %d removed and array shifted.\n", pos);
+    print_array(arr, length, "arr (removed)");
 }
 
-//FUNCTION DEFINITIONS
-void set_array(int arr[], int length){
-   int i;
-   for (i=0, i<length, i++){
-      arr[i] = i;
-   }
-}
-void print_array(int array[], int length){
-   for (int i = 0; i<length; i++){
-      printf("arr[%d]=%d\n", i, array[i])
-   }
+// ==============================================================================
+// 3. void insert_align_int(int arr[], int length, int pos, int value, ....):
+// Inserts the parameter value at the array index pos, while moving down by one 
+// position the original array elements from index pos onwards. Prints an error
+// if pos is not valid. The last element is effectively dropped.
+// ==============================================================================
+void insert_align_int(int arr[], int length, int pos, int value) {
+    printf("\n--- 3. insert_align_int (pos=%d, value=%d) ---\n", pos, value);
+    // Check if the position is valid
+    if (pos < 0 || pos >= length) {
+        printf("Error: Position %d is not a valid array index (0 to %d).\n", pos, length - 1);
+        return;
+    }
+
+    // Shift elements to the right, starting from the end of the array down to 'pos'
+    // The last element (at length - 1) is dropped off.
+    for (int i = length - 1; i > pos; i--) {
+        arr[i] = arr[i - 1];
+    }
+
+    // Insert the new value at 'pos'
+    arr[pos] = value;
+
+    printf("Value %d inserted at pos %d and array shifted.\n", value, pos);
+    print_array(arr, length, "arr (inserted)");
 }
 
-void rem_align(int arr[], int*length, int pos){
-   if(pos < 0 || pos >= *length)
-{
-   printf("Error: position %d is not a valid array index for length %d.\n");
-   return;
-
-} 
-for(int i = pos; i< *length - 1; i++)
-{arr[i] = arr[i+1]}
-}
+// ==============================================================================
+// 4. void reshape_int(int arr[], int length, int arr2d[nRows][nCols], ....):
+// Copies elements of the 1-D array arr into arr2d, row by row.
+// ==============================================================================
+void reshape_int(int arr[], int length, int arr2d[MAX_ROWS][MAX_COLS], int nRows, int nCols) {
+    printf("\n--- 4. reshape_int ---\n");
+    // Check for length mismatch
+    if (length != nRows * nCols) {
+        printf("Error: Length of 1D array (%d) does not equal nRows (%d) * nCols (%d).\n", 
+               length, nRows, nCols);
+        printf("Exiting function.\n");
+        return
