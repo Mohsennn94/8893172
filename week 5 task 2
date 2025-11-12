@@ -1,14 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h> // Required for malloc in flip_array
-#include <stdbool.h> // Required for boolean type
+#include <stdlib.h> 
+#include <stdbool.h> 
 
-// --- Symbolic Constants for Array Sizing (for testing and 2D array parameter) ---
-// Note: In C, the number of columns must be a constant for 2D array function parameters.
 #define MAX_SIZE 10
 #define MAX_ROWS 5
 #define MAX_COLS 5
 
-// --- Utility function to print a 1D array ---
 void print_array(int arr[], int length, const char *name) {
     printf("Array %s (Length %d): [", name, length);
     for (int i = 0; i < length; i++) {
@@ -17,10 +14,6 @@ void print_array(int arr[], int length, const char *name) {
     printf("]\n");
 }
 
-// ==============================================================================
-// 1. void set_array_int(int arr[], int length, ....):
-// Sets the value of each array element to its index in the array.
-// ==============================================================================
 void set_array_int(int arr[], int length) {
     printf("\n--- 1. set_array_int ---\n");
     for (int i = 0; i < length; i++) {
@@ -29,11 +22,7 @@ void set_array_int(int arr[], int length) {
     print_array(arr, length, "arr (set)");
 }
 
-// ==============================================================================
-// 2. void rem_align_int(int arr[], int length, int pos, ....):
-// Removes the array element at index pos by moving its following array elements 
-// one index up in the array. Prints an error if pos is not valid.
-// ==============================================================================
+
 void rem_align_int(int arr[], int length, int pos) {
     printf("\n--- 2. rem_align_int (pos=%d) ---\n", pos);
     // Check if the position is valid
@@ -42,24 +31,15 @@ void rem_align_int(int arr[], int length, int pos) {
         return;
     }
 
-    // Shift elements to the left, starting from 'pos'
     for (int i = pos; i < length - 1; i++) {
         arr[i] = arr[i + 1];
     }
-
-    // Optionally set the last element (which is now a duplicate of the second-to-last) to 0
     arr[length - 1] = 0;
 
     printf("Element at pos %d removed and array shifted.\n", pos);
     print_array(arr, length, "arr (removed)");
 }
 
-// ==============================================================================
-// 3. void insert_align_int(int arr[], int length, int pos, int value, ....):
-// Inserts the parameter value at the array index pos, while moving down by one 
-// position the original array elements from index pos onwards. Prints an error
-// if pos is not valid. The last element is effectively dropped.
-// ==============================================================================
 void insert_align_int(int arr[], int length, int pos, int value) {
     printf("\n--- 3. insert_align_int (pos=%d, value=%d) ---\n", pos, value);
     // Check if the position is valid
@@ -81,10 +61,6 @@ void insert_align_int(int arr[], int length, int pos, int value) {
     print_array(arr, length, "arr (inserted)");
 }
 
-// ==============================================================================
-// 4. void reshape_int(int arr[], int length, int arr2d[nRows][nCols], ....):
-// Copies elements of the 1-D array arr into arr2d, row by row.
-// ==============================================================================
 void reshape_int(int arr[], int length, int arr2d[MAX_ROWS][MAX_COLS], int nRows, int nCols) {
     printf("\n--- 4. reshape_int ---\n");
     // Check for length mismatch
