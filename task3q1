@@ -1,0 +1,86 @@
+#include <stdio.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void rearrange_iterative(int arr[], int n) {
+    int odd_pos = 0; 
+    for (int i = 0; i < n; i++) {
+        if (arr[i] % 2 != 0) {
+            if (i != odd_pos) {
+                swap(&arr[i], &arr[odd_pos]);
+            }
+            odd_pos++;
+        }
+    }
+}
+
+void rearrange_recursive_helper(int arr[], int n, int current_index, int *odd_pos_ptr) {
+    if (current_index >= n) {
+        return;
+    }
+
+    if (arr[current_index] % 2 != 0) {
+        
+        if (current_index != *odd_pos_ptr) {
+            swap(&arr[current_index], &arr[*odd_pos_ptr]);
+        }
+        
+        (*odd_pos_ptr)++;
+    }
+    
+    rearrange_recursive_helper(arr, n, current_index + 1, odd_pos_ptr);
+}
+
+void rearrange_recursive(int arr[], int n) {
+    int odd_pos = 0;
+    rearrange_recursive_helper(arr, n, 0, &odd_pos);
+}
+
+void print_array(const char *label, int arr[], int n) {
+    printf("%s: [", label);
+    for (int i = 0; i < n; i++) {
+        printf("%d", arr[i]);
+        if (i < n - 1) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
+int main() {
+    int arr1[] = {12, 34, 45, 9, 8, 90, 3};
+    int n1 = sizeof(arr1) / sizeof(arr1[0]);
+    int arr_copy1[] = {12, 34, 45, 9, 8, 90, 3}; 
+
+    printf("--- Iterative Algorithm ---\n");
+    print_array("Original Array", arr1, n1);
+    rearrange_iterative(arr1, n1);
+    print_array("Result (Iterative)", arr1, n1);
+    
+    printf("--- Recursive Algorithm ---\n");
+    print_array("Original Array", arr_copy1, n1);
+    rearrange_recursive(arr_copy1, n1);
+    print_array("Result (Recursive)", arr_copy1, n1);
+    printf("\n");
+
+    int arr2[] = {1, 3, 5, 2, 4, 6};
+    int n2 = sizeof(arr2) / sizeof(arr2[0]);
+    int arr_copy2[] = {1, 3, 5, 2, 4, 6};
+
+    printf("--- Iterative Algorithm ---\n");
+    print_array("Original Array", arr2, n2);
+    rearrange_iterative(arr2, n2);
+    print_array("Result (Iterative)", arr2, n2); 
+    printf("\n");
+    
+    printf("--- Recursive Algorithm ---\n");
+    print_array("Original Array", arr_copy2, n2);
+    rearrange_recursive(arr_copy2, n2);
+    print_array("Result (Recursive)", arr_copy2, n2); 
+    
+    return 0;
+}
