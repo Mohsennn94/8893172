@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+#define LOCAL_CURRENCY "USD"
+#define MAX_CURRENCIES 3
+#define MAX_CURRENCY_CODE_LEN 4
+#define MAX_EXCHANGE_USD 500.0f
+
+typedef struct {
+    char code[MAX_CURRENCY_CODE_LEN];
+    float buy_usd_per_intl; 
+    float sell_usd_per_intl;
+} ExchangeRateData;
+
+ExchangeRateData rates[] = {
+    {"EUR", 1.05f, 1.15f}, // Euro
+    {"JPY", 0.0065f, 0.0075f}, // Japanese Yen
+    {"GBP", 1.25f, 1.35f}  // British Pound
+};
+
+void curr_change(float amCur1, float amMax, float excRate, float *amCur2, float *leftOver);
+ExchangeRateData* find_currency_data(const char *code);
